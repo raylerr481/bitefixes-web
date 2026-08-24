@@ -1,0 +1,1 @@
+window.BITEFIXES_CONFIG={API_BASE_URL:'https://bitefixes-backend.onrender.com',API_PREFIX:'/api/v1',WHATSAPP_NUMBER:'',SITE_MODE:'wordpress-compatible'};
