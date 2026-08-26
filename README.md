@@ -1,94 +1,77 @@
 # BiteFixes Web
 
-`bitefixes-web` is the **website/frontend for BiteFixes.com**.
+`bitefixes-web` is the **BiteFixes.com website/frontend** and a web channel for the BiteFixes enterprise ecosystem.
 
-It is part of the BiteFixes enterprise ecosystem and must remain separate from the general Bitey IA product. Its business intelligence and authoritative company context are provided by `bitefixes-backend` through authorized APIs/contracts.
+## Product role
 
-## Product boundary
+BiteFixes is a separate enterprise product connected to the Bitey IA ecosystem. Its business intelligence and authoritative context are provided by `bitefixes-backend`.
 
 ```text
                     BITEFIXES
                         │
               ┌─────────┼─────────┐
               │         │         │
-       BiteFixes Web  BiteFixes App  Bitey AI Plugin
+       BiteFixes Web  BiteFixes App  WordPress channel
               │         │         │
               └─────────┼─────────┘
                         ↓
                BiteFixes Backend
                         ↓
-          BiteFixes enterprise intelligence
+              Bitey IA Empresarial
 ```
 
-**BiteFixes Web is not `bitey-web`.**
+**BiteFixes Web is not `bitey-web`.** `bitey-web` is the general Bitey IA Supracerebro.
 
-`bitey-web` is the general Bitey IA supracerebro/web application. `bitefixes-web` is the BiteFixes.com website/frontend.
+## Bitey IA Empresarial
+
+The floating AI assistant on BiteFixes Web is **Bitey IA Empresarial**. It maintains Bitey IA's architecture and capabilities while operating with authorized BiteFixes context such as CRM, customers, tickets, services, knowledge, conversations and workflows.
+
+This contextual layer is for BiteFixes. It does not limit the general Bitey IA Supracerebro.
 
 ## Responsibilities
 
-BiteFixes Web is responsible for:
-
 - Public BiteFixes.com presentation.
 - Service catalog and business information.
-- Customer-facing navigation and conversion flows.
+- Customer navigation and conversion flows.
 - Quote/contact entry points.
-- Authorized Bitey IA enterprise widget/channel integration.
-- Authentication and account UX where applicable.
-- Communication with authorized BiteFixes Backend APIs.
+- Bitey IA Empresarial floating assistant/channel.
+- Authentication/account UX where applicable.
+- Authorized communication with BiteFixes Backend.
 - Responsive web experience.
 
-It must NOT contain:
+The frontend must not contain provider keys, authoritative business intelligence, unrestricted private company memory or cross-tenant data.
 
-- provider API keys;
-- the authoritative BiteFixes business brain;
-- unrestricted company memory;
-- cross-tenant private data;
-- a duplicate copy of `bitefixes-backend` intelligence.
+## AI request flow
+
+```text
+Customer
+   ↓
+BiteFixes Web / floating assistant
+   ↓
+authorized API
+   ↓
+BiteFixes Backend
+   ↓
+Bitey IA Empresarial
+   ↓
+CRM + customers + tickets + services + knowledge + workflows
+   ↓
+contextual response / authorized action
+```
 
 ## Relationship to Bitey IA
 
-Bitey IA and BiteFixes are separate products.
-
-| Repository | Product | Role |
-|---|---|---|
-| `bitey-web` | **Bitey IA Web** | General Bitey IA supracerebro and Cloudflare application |
-| `bitey-ia-app` | **Bitey IA App** | General Bitey IA Android client |
-| `bitey-ai` | **Bitey IA Enterprise WordPress Plugin** | Enterprise WordPress channel |
-| `bitefixes-web` | **BiteFixes Web** | This BiteFixes.com website/frontend |
-| `bitefixes-app` | **BiteFixes App** | BiteFixes mobile channel |
-| `bitefixes-backend` | **BiteFixes Backend** | Specialized enterprise backend/intelligence |
-
-Bitey IA can be integrated into BiteFixes through explicit enterprise contracts, but that integration does not merge the two products or make BiteFixes Backend the general Bitey IA supracerebro.
-
-## Backend contract
-
-```text
-Browser / customer
-       ↓
-BiteFixes Web
-       ↓
-authorized API
-       ↓
-BiteFixes Backend
-       ↓
-company context + services + customers + workflows + authorized AI
-```
-
-Authoritative business rules, company memory, permissions and provider credentials remain server-side.
+Bitey IA is the general Supracerebro. Bitey IA Empresarial is the contextual enterprise manifestation used by authorized BiteFixes flows. The products relate and can exchange authorized, privacy-safe capabilities, but BiteFixes context remains scoped to BiteFixes.
 
 ## Security
 
 1. Never expose provider credentials in browser code.
 2. Validate and authorize backend requests server-side.
-3. Treat all client input as untrusted.
+3. Treat client input as untrusted.
 4. Enforce tenant and permission boundaries.
-5. Do not embed private company data unnecessarily in the client bundle.
-6. Keep business-critical decisions in `bitefixes-backend`.
-
-## Development principle
-
-Keep the frontend focused on presentation, interaction and authorized channel behavior. Changes to business intelligence, memory, workflows or company data belong in `bitefixes-backend` and its explicit API contracts.
+5. Keep business-critical decisions in the backend.
+6. Do not expose private customer/company data outside authorized context.
 
 ## Product principle
 
-**BiteFixes Web is the web channel of BiteFixes.com. Bitey Web is a different product: the general Bitey IA supracerebro.**
+**BiteFixes Web is a web channel of BiteFixes. Its floating assistant is Bitey IA Empresarial. Bitey IA Web is the separate general Bitey IA Supracerebro.**
