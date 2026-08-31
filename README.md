@@ -1,67 +1,79 @@
 # BiteFixes Web
 
-`bitefixes-web` is the **BiteFixes.com website/frontend** and a web channel for the BiteFixes enterprise ecosystem.
+`bitefixes-web` is the **public BiteFixes.com website/frontend** and the Web customer channel for the Bitey IA CRM architecture.
 
 ## Product role
 
-BiteFixes is a separate enterprise product connected to the Bitey IA ecosystem. Its business intelligence and authoritative context are provided by `bitefixes-backend`.
+BiteFixes is the first production tenant/pilot. Its existing public website is preserved. The private Support Portal is a separate protected area for authorized company personnel; the public website itself does not require Portal authentication.
+
+## Three customer channels
+
+The customer-facing entry points are intentionally simple and unified:
+
+1. WhatsApp
+2. Telegram
+3. Configurable Bitey web widget/globe
 
 ```text
-                    BITEFIXES
-                        │
-              ┌─────────┼─────────┐
-              │         │         │
-       BiteFixes Web  BiteFixes App  WordPress channel
-              │         │         │
-              └─────────┼─────────┘
-                        ↓
-               BiteFixes Backend
-                        ↓
-              Bitey IA Empresarial
+Customer
+   │
+   ├── WhatsApp ─┐
+   ├── Telegram ─┼──> Bitey Conversation Engine
+   └── Web globe ┘             │
+                               ▼
+                         CRM / IA / Memory
 ```
 
-**BiteFixes Web is not `bitey-web`.** `bitey-web` is the general Bitey IA Supracerebro.
+The web globe is configurable per tenant: company name, assistant name, logo, visual identity, welcome message, language and other presentation settings can vary without creating a new backend.
 
-## Bitey IA Empresarial
+## Portal boundary
 
-The floating AI assistant on BiteFixes Web is **Bitey IA Empresarial**. It maintains Bitey IA's architecture and capabilities while operating with authorized BiteFixes context such as CRM, customers, tickets, services, knowledge, conversations and workflows.
+The public site handles presentation, service discovery, contact and customer conversion. It does not expose the private CRM.
 
-This contextual layer is for BiteFixes. It does not limit the general Bitey IA Supracerebro.
+The Support Portal is the specialized internal workspace for authenticated BiteFixes personnel:
 
-## Responsibilities
+- owner
+- admin
+- technician
+- worker
 
-- Public BiteFixes.com presentation.
-- Service catalog and business information.
-- Customer navigation and conversion flows.
-- Quote/contact entry points.
-- Bitey IA Empresarial floating assistant/channel.
-- Authentication/account UX where applicable.
-- Authorized communication with BiteFixes Backend.
-- Responsive web experience.
-
-The frontend must not contain provider keys, authoritative business intelligence, unrestricted private company memory or cross-tenant data.
+Customers do not use the administrative Portal login. Their conversations arrive through the customer channels and are recorded in the backend CRM.
 
 ## AI request flow
 
 ```text
 Customer
    ↓
-BiteFixes Web / floating assistant
+BiteFixes Web / Bitey globe
    ↓
 authorized API
    ↓
 BiteFixes Backend
    ↓
-Bitey IA Empresarial
+Bitey Engine
    ↓
-CRM + customers + tickets + services + knowledge + workflows
+CRM + customer + conversation + service context
    ↓
-contextual response / authorized action
+response / authorized CRM action
 ```
 
-## Relationship to Bitey IA
+## SaaS/tenant model
 
-Bitey IA is the general Supracerebro. Bitey IA Empresarial is the contextual enterprise manifestation used by authorized BiteFixes flows. The products relate and can exchange authorized, privacy-safe capabilities, but BiteFixes context remains scoped to BiteFixes.
+The implementation is additive. BiteFixes remains the reference tenant while the same Web channel becomes configurable for other companies.
+
+A tenant may use a different visible assistant name from the internal Bitey engine. Example: the engine remains Bitey while the customer-facing assistant may be named `Sofia IA` for another company.
+
+The frontend must not contain provider keys, authoritative business intelligence, unrestricted private company memory or cross-tenant data.
+
+## Responsibilities
+
+- Public BiteFixes.com presentation.
+- Service catalog and business information.
+- Quote/contact entry points.
+- Configurable Bitey web widget/globe.
+- Customer conversation transport.
+- Responsive web experience.
+- Authorized communication with the backend.
 
 ## Security
 
@@ -74,4 +86,4 @@ Bitey IA is the general Supracerebro. Bitey IA Empresarial is the contextual ent
 
 ## Product principle
 
-**BiteFixes Web is a web channel of BiteFixes. Its floating assistant is Bitey IA Empresarial. Bitey IA Web is the separate general Bitey IA Supracerebro.**
+**BiteFixes Web is the public Web channel of the BiteFixes tenant. Its configurable Bitey globe is one of three customer channels; the Support Portal remains a separate authenticated workspace for company personnel.**
