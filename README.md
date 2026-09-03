@@ -1,89 +1,56 @@
 # BiteFixes Web
 
-`bitefixes-web` is the **public BiteFixes.com website/frontend** and the Web customer channel for the Bitey IA CRM architecture.
+`bitefixes-web` is the **public BiteFixes.com website/frontend** and a customer Web channel for **Bitey IA Empresarial**.
 
 ## Product role
 
-BiteFixes is the first production tenant/pilot. Its existing public website is preserved. The private Support Portal is a separate protected area for authorized company personnel; the public website itself does not require Portal authentication.
+BiteFixes owns the CRM, SaaS, AI-agent implementation and enterprise AI deployments. The Web globe is one customer-facing channel of those deployments.
 
-## Three customer channels
+**Bitey IA Empresarial** is contextual to the business using it: company context, knowledge, memory, business rules, authorized data and tools are tenant-scoped.
 
-The customer-facing entry points are intentionally simple and unified:
+**Bitey IA Web** (`raylerr481/bitey-web`) is different: it is the general/integral Bitey IA architecture, comparable conceptually to a general assistant such as ChatGPT. It can coordinate other modules, models, research and tools. This website does not turn into that general brain.
+
+## Customer channels
 
 1. WhatsApp
 2. Telegram
-3. Configurable Bitey web widget/globe
-
-```text
-Customer
-   │
-   ├── WhatsApp ─┐
-   ├── Telegram ─┼──> Bitey Conversation Engine
-   └── Web globe ┘             │
-                               ▼
-                         CRM / IA / Memory
-```
-
-The web globe is configurable per tenant: company name, assistant name, logo, visual identity, welcome message, language and other presentation settings can vary without creating a new backend.
-
-## Portal boundary
-
-The public site handles presentation, service discovery, contact and customer conversion. It does not expose the private CRM.
-
-The Support Portal is the specialized internal workspace for authenticated BiteFixes personnel:
-
-- owner
-- admin
-- technician
-- worker
-
-Customers do not use the administrative Portal login. Their conversations arrive through the customer channels and are recorded in the backend CRM.
-
-## AI request flow
+3. Configurable Bitey Web widget/globe
 
 ```text
 Customer
    ↓
 BiteFixes Web / Bitey globe
    ↓
-authorized API
-   ↓
 BiteFixes Backend
    ↓
-Bitey Engine
+Bitey IA Empresarial
    ↓
-CRM + customer + conversation + service context
-   ↓
-response / authorized CRM action
+Authorized CRM / memory / knowledge / automation
 ```
 
-## SaaS/tenant model
+## CRM boundary
 
-The implementation is additive. BiteFixes remains the reference tenant while the same Web channel becomes configurable for other companies.
+The public site never becomes the CRM. Private CRM operations remain in the authenticated BiteFixes backend/Support Portal. Browser code must never contain provider keys or unrestricted private enterprise data.
 
-A tenant may use a different visible assistant name from the internal Bitey engine. Example: the engine remains Bitey while the customer-facing assistant may be named `Sofia IA` for another company.
+## SaaS / tenant model
 
-The frontend must not contain provider keys, authoritative business intelligence, unrestricted private company memory or cross-tenant data.
+The globe can be configured per tenant with company name, assistant name, logo, visual identity, language, currency and authorized channel settings. Each tenant remains isolated.
 
 ## Responsibilities
 
-- Public BiteFixes.com presentation.
-- Service catalog and business information.
-- Quote/contact entry points.
-- Configurable Bitey web widget/globe.
-- Customer conversation transport.
-- Responsive web experience.
-- Authorized communication with the backend.
+- Public BiteFixes presentation.
+- Services, contact and quote entry points.
+- Web customer channel.
+- Configurable Bitey globe.
+- Secure communication with BiteFixes Backend.
+- Responsive UX and localization.
 
 ## Security
 
 1. Never expose provider credentials in browser code.
-2. Validate and authorize backend requests server-side.
-3. Treat client input as untrusted.
-4. Enforce tenant and permission boundaries.
+2. Treat client input as untrusted.
+3. Enforce tenant authorization server-side.
+4. Do not expose private CRM data to unauthorized clients.
 5. Keep business-critical decisions in the backend.
-6. Do not expose private customer/company data outside authorized context.
 
-## Product principle
-
-**BiteFixes Web is the public Web channel of the BiteFixes tenant. Its configurable Bitey globe is one of three customer channels; the Support Portal remains a separate authenticated workspace for company personnel.**
+**Principle:** BiteFixes Web is a customer channel for BiteFixes and its contextual Bitey IA Empresarial deployments; it is not the general Bitey IA Web brain and does not own the CRM.
