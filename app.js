@@ -5,6 +5,26 @@ const input=document.getElementById('biteyInput');
 const messages=document.getElementById('biteyMessages');
 const status=document.getElementById('biteyStatus');
 const availability=document.getElementById('biteyAvailability');
+const CHAT_ENDPOINT='/chat/business';
+const SESSION_KEY='bitefixes_bitey_business_session_v1';
+
+function getBusinessSessionId(){
+  try{
+    let id=localStorage.getItem(SESSION_KEY);
+    if(!id){
+      id=(crypto?.randomUUID?.()||`bf-${Date.now()}-${Math.random().toString(36).slice(2,10)}`);
+      localStorage.setItem(SESSION_KEY,id);
+    }
+    return id;
+  }catch(_err){return `bf-${Date.now()}`;}
+}
+
+function getLanguage(){
+  const lang=(document.documentElement.lang||navigator.language||'pt-BR').toLowerCase();
+  if(lang.startsWith('es'))return'es';
+  if(lang.startsWith('en'))return'en';
+  return'pt-BR';
+}
 
 function addMessage(text,role='bitey'){
   if(!messages)return;
@@ -23,8 +43,13 @@ async function getJson(path){
 
 async function postJson(path,payload){
   const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
-  if(!r.ok)throw new Error(`API ${r.status}`);
-  return r.json();
+  let data=null;
+  try{data=await r.json();}catch(_err){}
+  if(!r.ok){
+    const detail=data?.detail||data?.message||data?.response;
+    throw new Error(detail||`API ${r.status}`);
+  }
+  return data||{};
 }
 
 async function checkBitey(){
@@ -32,16 +57,16 @@ async function checkBitey(){
   try{
     const data=await getJson('/ai/status');
     const ready=data.status==='ready'&&data.gateway==='ready';
-    availability.textContent=ready?'● Bitey IA online':'● Bitey IA parcialmente disponible';
+    availability.textContent=ready?'● Bitey IA Empresarial online':'● Bitey IA Empresarial parcialmente disponible';
   }catch(err){
-    availability.textContent='● Bitey IA indisponível no momento';
-    console.warn('Bitey health check failed',err);
+    availability.textContent='● Bitey IA Empresarial indisponível no momento';
+    console.warn('Bitey business health check failed',err);
   }
 }
 
 document.getElementById('bitey').onclick=()=>{
   dialog.showModal();
-  if(messages&&!messages.children.length)addMessage('Olá! Sou Bitey IA. Posso diagnosticar sua necessidade, orientar uma solução ou ajudar a estruturar uma automação.');
+  if(messages&&!messages.children.length)addMessage('Olá! Sou Bitey IA Empresarial da BiteFixes. Posso ajudar com serviços, reparos, diagnóstico e atendimento da BiteFixes.');
   input?.focus();
 };
 document.getElementById('close').onclick=()=>dialog.close();
@@ -59,7 +84,16 @@ document.querySelectorAll('[data-bitey-prompt]').forEach(link=>link.addEventList
 }));
 
 async function sendToBitey(text,source='bitefixes-web'){
-  const data=await postJson('/chat',{message:text,source,language:document.documentElement.lang||'pt-BR'});
+  const data=await postJson(CHAT_ENDPOINT,{
+    message:text,
+    company_id:Number(cfg.COMPANY_ID||1),
+    channel:'website',
+    product:'bitey-enterprise',
+    context_scope:'bitefixes',
+    conversation_id:getBusinessSessionId(),
+    language_preference:getLanguage(),
+    source
+  });
   return data.response||data.message||'Bitey recebeu sua solicitação.';
 }
 
@@ -74,8 +108,8 @@ document.getElementById('biteySend').onclick=async()=>{
     addMessage(answer,'bitey');
     status.textContent='';
   }catch(err){
-    status.textContent='Bitey não está disponível temporariamente. Tente novamente.';
-    console.error(err);
+    status.textContent=err.message||'Bitey não está disponível temporariamente. Tente novamente.';
+    console.error('Bitey business chat error',err);
   }
 };
 
@@ -96,7 +130,7 @@ document.getElementById('quoteForm').addEventListener('submit',async event=>{
     form.reset();
   }catch(err){
     formStatus.textContent='Não foi possível conectar ao atendimento de IA agora. Tente novamente ou use o WhatsApp.';
-    console.error(err);
+    console.error('Bitey quote error',err);
   }
 });
 
