@@ -45,6 +45,18 @@ The globe can be configured per tenant with company name, assistant name, logo, 
 - Secure communication with BiteFixes Backend.
 - Responsive UX and localization.
 
+## Infrastructure and cost policy
+
+BiteFixes/Bitey follows a **free-first, no-surprise-cost architecture**.
+
+- Prefer free services, open-source software, or free tiers without automatic billing risk.
+- Do not add providers that require a payment card just to start or can create unexpected entry/egress, API, traffic, storage, or execution charges.
+- **Railway is explicitly excluded** from BiteFixes/Bitey infrastructure.
+- Cloudflare is allowed when the free tier is sufficient and any later cost occurs only after a clearly defined usage threshold; paid plans and automatic billing must not be enabled without explicit approval.
+- Before incorporating a new service, verify pricing, billing behavior, limits, card requirements, and overage behavior.
+- If a service can generate costs without an explicit decision first, choose a safer alternative.
+- This policy is documentation-only and does not alter existing working integrations.
+
 ## Security
 
 1. Never expose provider credentials in browser code.
